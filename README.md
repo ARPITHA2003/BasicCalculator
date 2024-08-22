@@ -1,6 +1,6 @@
 # BasicCalculator
 This repository presents a user-friendly calculator application built with the power of React, HTML, and CSS. It offers basic arithmetic functionalities, making calculations a breeze.
-
+(without using eval function)
 
 Look into my package.json file for the required libraries.(and install using the command - 
 npm install library_name)
