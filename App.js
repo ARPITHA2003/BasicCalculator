@@ -4,6 +4,53 @@ import { useState } from 'react';
 function App() {
 
   let [value,setValue]=useState('')
+  let [result,setResult]=useState('')
+
+  const handleNumberClick = (number) => {
+    setValue(value + number)
+  }
+
+  const handleOperatorClick = (operator) => {
+    setValue(value + operator)
+  }
+
+  const handleClearClick = () => {
+    setValue('')
+    setResult('')
+  }
+
+  const handleDeleteClick = () => {
+    setValue(value.slice(0,-1))
+  }
+
+  const handleEqualClick = () => {
+    let numbers = value.split(/[-+*/]/)
+    let operators = value.match(/[-+*/]/g)
+
+    let result = parseFloat(numbers[0])
+
+    for (let i = 0; i < operators.length; i++) {
+      switch (operators[i]) {
+        case '+':
+          result += parseFloat(numbers[i + 1])
+          break;
+        case '-':
+          result -= parseFloat(numbers[i + 1])
+          break;
+        case '*':
+          result *= parseFloat(numbers[i + 1])
+          break;
+        case '/':
+          result /= parseFloat(numbers[i + 1])
+          break;
+        default:
+          break;
+      }
+    }
+
+    setResult(result.toString())
+  }
+
   return (
     <div>
        
@@ -12,41 +59,40 @@ function App() {
         <form action="">
           <div className='display'>
             <input type="text" value={value} readOnly/>
-          </div>
-
-          {/* on clicking the button an eventObj is passed which has target,
-          it refers to the element that triggered the event which has property value to access its value */}
-          <div>
-            <input type="button" value="AC" onClick={eventObj=>setValue('')}/>
-            <input type="button" value="DE" onClick={eventObj=>setValue(value.slice(0,-1))}/>
-            <input type="button" value="." onClick={eventObj=>setValue(value + eventObj.target.value)}/>
-            <input type="button" value="/" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
-          </div>
-          <div>
-            <input type="button" value="7" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
-            <input type="button" value="8" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
-            <input type="button" value="9" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
-            <input type="button" value="*" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
+            <input type="text" value={result} readOnly/>
           </div>
 
           <div>
-            <input type="button" value="4" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
-            <input type="button" value="5" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
-            <input type="button" value="6" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
-            <input type="button" value="+" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
+            <input type="button" value="AC" onClick={handleClearClick}/>
+            <input type="button" value="DE" onClick={handleDeleteClick}/>
+            <input type="button" value="." onClick={() => handleNumberClick('.')}/>
+            <input type="button" value="/" onClick={() => handleOperatorClick('/')}/>
+          </div>
+          <div>
+            <input type="button" value="7" onClick={() => handleNumberClick('7')}/>
+            <input type="button" value="8" onClick={() => handleNumberClick('8')}/>
+            <input type="button" value="9" onClick={() => handleNumberClick('9')}/>
+            <input type="button" value="*" onClick={() => handleOperatorClick('*')}/>
           </div>
 
           <div>
-            <input type="button" value="1" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
-            <input type="button" value="2" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
-            <input type="button" value="3" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
-            <input type="button" value="-" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
+            <input type="button" value="4" onClick={() => handleNumberClick('4')}/>
+            <input type="button" value="5" onClick={() => handleNumberClick('5')}/>
+            <input type="button" value="6" onClick={() => handleNumberClick('6')}/>
+            <input type="button" value="+" onClick={() => handleOperatorClick('+')}/>
           </div>
 
           <div>
-            <input type="button" value="00" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
-            <input type="button" value="0" onClick={eventObj=>setValue(value + eventObj.target.value)}/>
-            <input type="button" value="="  className='equal'onClick={eventObj=>setValue(eval(value))}/>
+            <input type="button" value="1" onClick={() => handleNumberClick('1')}/>
+            <input type="button" value="2" onClick={() => handleNumberClick('2')}/>
+            <input type="button" value="3" onClick={() => handleNumberClick('3')}/>
+            <input type="button" value="-" onClick={() => handleOperatorClick('-')}/>
+          </div>
+
+          <div>
+            <input type="button" value="00" onClick={() => handleNumberClick('00')}/>
+            <input type="button" value="0" onClick={() => handleNumberClick('0')}/>
+            <input type="button" value="="  className='equal' onClick={handleEqualClick}/>
            
           </div>
 
